@@ -11,15 +11,15 @@ FetchContent_MakeAvailable(gtest)
 
 add_executable(
     unit_tests
-    example_add.cpp
-    example_subtract.cpp
-    raingauge_poc.cpp
+    #example_add.cpp
+    #example_subtract.cpp
+    #raingauge_poc.cpp
     TestRainGauge.cpp
     )
 
 target_link_libraries(unit_tests
   PRIVATE
-    example
+    #example
     RainGauge
     gtest_main
   )
