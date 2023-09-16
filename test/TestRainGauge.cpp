@@ -86,6 +86,7 @@ void RainHour() {
   printf("< RainHour >\n");
   
   setTime("2022-09-06 8:00", tm, ts);
+  rainGauge.init(tm, rainSensor=10.0);
   rainGauge.update(tm, rainSensor=10.0);
   ASSERT_NEAR(0, rainGauge.pastHour(), TOLERANCE);
 
@@ -166,6 +167,7 @@ void RainHourShort() {
   printf("< RainHourShort >\n");
   
   setTime("2022-09-11 15:00", tm, ts);
+  rainGauge.init(tm, rainSensor=10.0);
   rainGauge.update(tm, rainSensor=10.0);
   DEBUG_CB();
   ASSERT_NEAR(0, rainGauge.pastHour(), TOLERANCE);
