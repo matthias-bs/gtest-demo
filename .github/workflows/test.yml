@@ -38,18 +38,18 @@ jobs:
       with:
         python-version: 3.9
 
-    #- name: Upload code coverage to coveralls
-    #  if: contains(matrix.os, 'ubuntu')
-    #  env:
-    #    COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
-    #  run: |
-    #    python -m venv venv
-    #    source venv/bin/activate
-    #    pip install --upgrade pip setuptools cpp-coveralls
-    #    coveralls -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" --exclude "venv" --exclude "build/_deps"
+    - name: Upload code coverage to coveralls
+      if: contains(matrix.os, 'ubuntu')
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip setuptools cpp-coveralls
+        coveralls -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" --exclude "venv" --exclude "build/_deps"
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        path-to-lcov: build/lcov.info
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    #- name: Coveralls
+    #  uses: coverallsapp/github-action@master
+    #  with:
+    #    path-to-lcov: build/lcov.info
+    #    github-token: ${{ secrets.GITHUB_TOKEN }}
