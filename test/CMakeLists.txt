@@ -14,20 +14,7 @@ add_executable(
     #example_add.cpp
     #example_subtract.cpp
     #raingauge_poc.cpp
-    #TestRainGauge.cpp
-    TestRainGaugeHour.cpp
-    TestRainGaugeHourShortInterval.cpp
-    TestRainGaugeHourLongInterval.cpp
-    TestRainGaugeHourExtremeInterval.cpp
-    TestRainGaugeDaily.cpp
-    TestRainGaugeWeekly.cpp
-    TestRainGaugeMonthly.cpp
-    TestRainGaugeHourOv.cpp
-    TestRainGaugeHourOvMidnight.cpp
-    TestRainGaugeDailyOv.cpp
-    TestRainGaugeWeeklyOv.cpp
-    TestRainGaugeMonthlyOv.cpp
-    TestRainGaugeStartup.cpp
+    TestRainGauge.cpp
 )
 
 target_link_libraries(unit_tests
