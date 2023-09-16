@@ -72,11 +72,10 @@ static void setTime(const char *time, tm &tm, time_t &ts)
   ts = mktime(&tm);
 }
 
-
 /*
  * Test rainfall during past hour (no rain gauge overflow)
  */
-TEST(TestRainGaugeHour, RainHour) {
+void RainHour() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -156,7 +155,7 @@ TEST(TestRainGaugeHour, RainHour) {
  * Test rainfall during past hour (no rain gauge overflow),
  * short update interval (5 minutes)
  */
-TEST(TestRainGaugeHourShortInterval, RainHourShort) {
+void RainHourShort() {
   static RainGauge rainGauge;
   rainGauge.reset();
   
@@ -248,7 +247,7 @@ TEST(TestRainGaugeHourShortInterval, RainHourShort) {
  * long update interval (10 minutes)
  * The ring buffer will not be filled completely.
  */
-TEST(TestRainGaugeHourLongInterval, RainHourLong) {
+void RainHourLong() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -325,7 +324,7 @@ TEST(TestRainGaugeHourLongInterval, RainHourLong) {
  * extremely long update interval (65 minutes)
  * The distance between head and tail will be > 1h.
  */
-TEST(TestRainGaugeHourExtremeInterval, RainHourExtreme) {
+void RainHourExtreme() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -375,7 +374,7 @@ TEST(TestRainGaugeHourExtremeInterval, RainHourExtreme) {
 /*
  * Test daily rainfall (no rain gauge overflow)
  */
-TEST(TestRainGaugeDaily, RainDaily) {
+void RainDaily() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -420,7 +419,7 @@ TEST(TestRainGaugeDaily, RainDaily) {
 /*
  * Test weekly rainfall (no rain gauge overflow)
  */
-TEST(TestRainGaugeWeekly, RainWeekly) {
+void RainWeekly() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -478,7 +477,7 @@ TEST(TestRainGaugeWeekly, RainWeekly) {
 /*
  * Test monthly rainfall (no rain gauge overflow)
  */
-TEST(TestRainGaugeMonthly, RainMonthly) {
+void RainMonthly() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -605,7 +604,7 @@ TEST(TestRainGaugeMonthly, RainMonthly) {
 /*
  * Test rainfall during past hour (with rain gauge overflow)
  */
-TEST(TestRainGaugeHourOv, RainHourOv) {
+void RainHourOv() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -685,7 +684,7 @@ TEST(TestRainGaugeHourOv, RainHourOv) {
  * Test rainfall during past hour (with rain gauge overflow),
  * timestamps across Midnight
  */
-TEST(TestRainGaugeHourOvMidnight, RainHourOvMidnight) {
+void RainHourOvMidnight() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -770,7 +769,7 @@ TEST(TestRainGaugeHourOvMidnight, RainHourOvMidnight) {
 /*
  * Test daily rainfall (with rain gauge overflow)
  */
-TEST(TestRainGaugeDailyOv, RainDailyOv) {
+void RainDailyOv() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -817,7 +816,7 @@ TEST(TestRainGaugeDailyOv, RainDailyOv) {
 /*
  * Test weekly rainfall (with rain gauge overflow)
  */
-TEST(TestRainGaugeWeeklyOv, RainWeeklyOv) {
+void RainWeeklyOv() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -876,7 +875,7 @@ TEST(TestRainGaugeWeeklyOv, RainWeeklyOv) {
 /*
  * Test monthly rainfall (no rain gauge overflow)
  */
-TEST(TestRainGaugeMonthlyOv, RainMonthlyOv) {
+void RainMonthlyOv() {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -1005,7 +1004,7 @@ TEST(TestRainGaugeMonthlyOv, RainMonthlyOv) {
  * Test that rain gauge values are preserved after sensor startup,
  * i.e. sensor reset or battery change
  */
-TEST(TestRainGaugeStartup, TestRainStartup) {
+void TestRainStartup(void) {
   static RainGauge rainGauge;
   rainGauge.reset();
 
@@ -1037,4 +1036,21 @@ TEST(TestRainGaugeStartup, TestRainStartup) {
   ASSERT_NEAR(5, rainGauge.pastHour(), TOLERANCE);
   ASSERT_NEAR(5, rainGauge.currentDay(), TOLERANCE);
   ASSERT_NEAR(5, rainGauge.currentWeek(), TOLERANCE);
+}
+
+
+TEST(TestRainGauge, TestRainGaugeBasic) {
+      TestRainStartup();
+      RainHour();
+      RainHourShort();
+      RainHourLong();
+      RainHourExtreme();
+      RainDaily();
+      RainWeekly();
+      RainMonthly();
+      RainHourOv();
+      RainHourOvMidnight();
+      RainDailyOv();
+      RainWeeklyOv();
+      RainMonthlyOv();
 }
