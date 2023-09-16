@@ -22,6 +22,7 @@ target_include_directories(example
 
 target_include_directories(RainGauge
   PUBLIC
+    ../test
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
