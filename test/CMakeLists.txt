@@ -14,6 +14,7 @@ add_executable(
     example_add.cpp
     example_subtract.cpp
     raingauge_poc.cpp
+    TestRainGauge.cpp
     )
 
 target_link_libraries(unit_tests
