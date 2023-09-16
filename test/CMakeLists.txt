@@ -2,7 +2,7 @@ include(FetchContent)
 FetchContent_Declare(gtest
   QUIET
   #URL https://github.com/google/googletest/archive/release-1.10.0.tar.gz
-  https://github.com/google/googletest/archive/refs/heads/main.zip
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
 )
 # configure build of googletest
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
