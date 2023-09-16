@@ -181,7 +181,6 @@ void
 RainGauge::reset(uint8_t flags)
 {
     if (flags & RESET_RAIN_H) {
-        nvData.rainBuf[0]     = 0;
         nvData.head           = 0;
         nvData.tail           = 0;
 
