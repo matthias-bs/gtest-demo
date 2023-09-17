@@ -1047,7 +1047,7 @@ TEST(TestRainGauge, TestRainGaugeBasic) {
       RainHourShort();
       RainHourLong();
       RainHourExtreme();
-      //RainDaily();
+      RainDaily();
       //RainWeekly();
       //RainMonthly();
       RainHourOv();
