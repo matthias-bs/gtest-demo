@@ -76,7 +76,7 @@ static void setTime(const char *time, tm &tm, time_t &ts)
  * Test rainfall during past hour (no rain gauge overflow)
  */
 void RainHour() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -157,7 +157,7 @@ void RainHour() {
  * short update interval (5 minutes)
  */
 void RainHourShort() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
   
   tm        tm;
@@ -250,7 +250,7 @@ void RainHourShort() {
  * The ring buffer will not be filled completely.
  */
 void RainHourLong() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -327,7 +327,7 @@ void RainHourLong() {
  * The distance between head and tail will be > 1h.
  */
 void RainHourExtreme() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -377,7 +377,7 @@ void RainHourExtreme() {
  * Test daily rainfall (no rain gauge overflow)
  */
 void RainDaily() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -422,7 +422,7 @@ void RainDaily() {
  * Test weekly rainfall (no rain gauge overflow)
  */
 void RainWeekly() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -480,7 +480,7 @@ void RainWeekly() {
  * Test monthly rainfall (no rain gauge overflow)
  */
 void RainMonthly() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -607,7 +607,7 @@ void RainMonthly() {
  * Test rainfall during past hour (with rain gauge overflow)
  */
 void RainHourOv() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -687,7 +687,7 @@ void RainHourOv() {
  * timestamps across Midnight
  */
 void RainHourOvMidnight() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -772,7 +772,7 @@ void RainHourOvMidnight() {
  * Test daily rainfall (with rain gauge overflow)
  */
 void RainDailyOv() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -819,7 +819,7 @@ void RainDailyOv() {
  * Test weekly rainfall (with rain gauge overflow)
  */
 void RainWeeklyOv() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -878,7 +878,7 @@ void RainWeeklyOv() {
  * Test monthly rainfall (no rain gauge overflow)
  */
 void RainMonthlyOv() {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -1007,7 +1007,7 @@ void RainMonthlyOv() {
  * i.e. sensor reset or battery change
  */
 void TestRainStartup(void) {
-  static RainGauge rainGauge;
+  RainGauge rainGauge;
   rainGauge.reset();
 
   tm        tm;
@@ -1047,7 +1047,7 @@ TEST(TestRainGauge, TestRainGaugeBasic) {
       RainHourShort();
       RainHourLong();
       RainHourExtreme();
-      //RainDaily();
+      RainDaily();
       //RainWeekly();
       //RainMonthly();
       RainHourOv();
