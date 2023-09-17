@@ -183,7 +183,7 @@ RainGauge::reset(uint8_t flags)
     if (flags & RESET_RAIN_H) {
         nvData.head           = 0;
         nvData.tail           = 0;
-        for (int i=0; i < RAINGAUGE_BUF_SIZE); i++) {
+        for (int i=0; i < RAINGAUGE_BUF_SIZE; i++) {
            nvData.tsBuf[i]   = 0;
            nvData.rainBuf[i] = 0;
         }
