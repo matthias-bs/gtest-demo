@@ -77,7 +77,7 @@ static void setTime(const char *time, tm &tm, time_t &ts)
  * Test rainfall during past hour (no rain gauge overflow)
  */
 TEST(TestRainGauge, RainHour) {
-nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -95,7 +95,7 @@ nvData_t nvData = {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -175,7 +175,7 @@ nvData_t nvData = {
  * short update interval (5 minutes)
  */
 TEST(TestRainGauge, RainHourShort) {
-nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -193,7 +193,7 @@ nvData_t nvData = {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
   
   tm        tm;
@@ -285,7 +285,7 @@ nvData_t nvData = {
  * The ring buffer will not be filled completely.
  */
 TEST(TestRainGauge, RainHourLong) {
-nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -303,7 +303,7 @@ nvData_t nvData = {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -380,7 +380,7 @@ nvData_t nvData = {
  * The distance between head and tail will be > 1h.
  */
 TEST(TestRainGauge, RainHourExtreme) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -398,7 +398,7 @@ TEST(TestRainGauge, RainHourExtreme) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -448,7 +448,7 @@ TEST(TestRainGauge, RainHourExtreme) {
  * Test daily rainfall (no rain gauge overflow)
  */
 TEST(TestRainGauge, RainDaily) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -466,7 +466,7 @@ TEST(TestRainGauge, RainDaily) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -511,7 +511,7 @@ TEST(TestRainGauge, RainDaily) {
  * Test weekly rainfall (no rain gauge overflow)
  */
 TEST(TestRainGauge, RainWeekly) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -529,7 +529,7 @@ TEST(TestRainGauge, RainWeekly) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -587,7 +587,7 @@ TEST(TestRainGauge, RainWeekly) {
  * Test monthly rainfall (no rain gauge overflow)
  */
 TEST(TestRainGauge, RainMonthly) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -605,7 +605,7 @@ TEST(TestRainGauge, RainMonthly) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -732,7 +732,7 @@ TEST(TestRainGauge, RainMonthly) {
  * Test rainfall during past hour (with rain gauge overflow)
  */
 TEST(TestRainGauge, RainHourOv) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -750,7 +750,7 @@ TEST(TestRainGauge, RainHourOv) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -830,7 +830,7 @@ TEST(TestRainGauge, RainHourOv) {
  * timestamps across Midnight
  */
 TEST(TestRainGauge, RainHourOvMidnight) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -848,7 +848,7 @@ TEST(TestRainGauge, RainHourOvMidnight) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -933,7 +933,7 @@ TEST(TestRainGauge, RainHourOvMidnight) {
  * Test daily rainfall (with rain gauge overflow)
  */
 TEST(TestRainGauge, RainDailyOv) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -951,7 +951,7 @@ TEST(TestRainGauge, RainDailyOv) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -998,7 +998,7 @@ TEST(TestRainGauge, RainDailyOv) {
  * Test weekly rainfall (with rain gauge overflow)
  */
 TEST(TestRainGauge, RainWeeklyOv) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -1016,7 +1016,7 @@ TEST(TestRainGauge, RainWeeklyOv) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -1075,7 +1075,7 @@ TEST(TestRainGauge, RainWeeklyOv) {
  * Test monthly rainfall (no rain gauge overflow)
  */
 TEST(TestRainGauge, RainMonthlyOv) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -1093,7 +1093,7 @@ TEST(TestRainGauge, RainMonthlyOv) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
@@ -1222,7 +1222,7 @@ TEST(TestRainGauge, RainMonthlyOv) {
  * i.e. sensor reset or battery change
  */
 TEST(TestRainGauge, TestRainStartup) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -1240,7 +1240,7 @@ TEST(TestRainGauge, TestRainStartup) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
