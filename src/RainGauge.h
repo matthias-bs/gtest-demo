@@ -80,6 +80,40 @@
  */
 //#define _DEBUG_CIRCULAR_BUFFER_
 
+/**
+ * \typedef nvData_t
+ *
+ * \brief Data structure for rain statistics to be stored in non-volatile memory
+ *
+ * On ESP32, this data is stored in the RTC RAM. 
+ */
+typedef struct {
+    /* rainfall during past hour - circular buffer */
+    uint32_t  tsBuf[RAINGAUGE_BUF_SIZE];
+    uint16_t  rainBuf[RAINGAUGE_BUF_SIZE];
+    uint8_t   head;
+    uint8_t   tail;
+
+    /* Sensor startup handling */
+    bool      startupPrev; // previous state of startup
+    float     rainStartup; // rain gauge before startup 
+
+    /* Rainfall of current day (can start anytime, but will reset on begin of new day) */
+    uint8_t   tsDayBegin; // day of week
+    float     rainDayBegin; // rain gauge @ begin of day
+
+    /* Rainfall of current week (can start anytime, but will reset on Monday */
+    uint8_t   tsWeekBegin; // day of week 
+    float     rainWeekBegin; // rain gauge @ begin of week
+    uint8_t   wdayPrev; // day of week at previous run - to detect new week
+
+    /* Rainfall of current calendar month (can start anytime, but will reset at begin of month */
+    uint8_t   tsMonthBegin; // month
+    float     rainMonthBegin; // rain gauge @ begin of month
+
+    float     rainPrev;  // rain gauge at previous run - to detect overflow
+    uint16_t  rainOvf; // number of rain gauge overflows
+} nvData_t;
 
 /**
  * \class RainGauge
@@ -91,8 +125,12 @@
 class RainGauge {
 public:
     float rainCurr;
+    nvData_t *nvData;
     
-    RainGauge() {};
+    RainGauge(nvData_t *data) {
+      nvData = data;
+    };
+
 #ifdef _DEBUG_CIRCULAR_BUFFER_
     /**
      * Print circular buffer for rainfall of past 60 minutes
