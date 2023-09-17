@@ -78,7 +78,7 @@ static void setTime(const char *time, tm &tm, time_t &ts)
  * Test rainfall during past hour (no rain gauge overflow)
  */
 TEST(TestRainGaugeHour, RainHour) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -96,7 +96,7 @@ TEST(TestRainGaugeHour, RainHour) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
