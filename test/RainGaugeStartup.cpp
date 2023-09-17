@@ -76,7 +76,7 @@ static void setTime(const char *time, tm &tm, time_t &ts)
 }
 
 TEST(TestRainGaugeStartup, TestRainGauge) {
-  nvData_t nvData = {
+  nvData_t data = {
    .tsBuf = {0},
    .rainBuf = {0}, 
    .head = 0,
@@ -94,7 +94,7 @@ TEST(TestRainGaugeStartup, TestRainGauge) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&nvData);
+  RainGauge rainGauge(&data);
   rainGauge.reset();
 
   tm        tm;
