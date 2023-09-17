@@ -1,17 +1,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // TestRainGauge.cpp
 //
-// CppUTest unit tests for RainGauge - artificial test cases
+// Googletest unit tests for RainGauge - artificial test cases
 //
 // https://github.com/matthias-bs/BresserWeatherSensorReceiver
 //
 //
-// created: 09/2022
+// created: 09/2023
 //
 //
 // MIT License
 //
-// Copyright (c) 2022 Matthias Prinke
+// Copyright (c) 2023 Matthias Prinke
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@
 //
 // History:
 //
-// 20220830 Created
+// 20230917 Created
 //
 // ToDo: 
 // -
