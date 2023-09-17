@@ -58,43 +58,6 @@ const int SECONDS_PER_DAY  = 86400;
    #pragma message("RainGauge with SLEEP_EN only supported on ESP32!")
 #endif
 
-
-/**
- * \typedef nvData_t
- *
- * \brief Data structure for rain statistics to be stored in non-volatile memory
- *
- * On ESP32, this data is stored in the RTC RAM. 
- */
-typedef struct {
-    /* rainfall during past hour - circular buffer */
-    uint32_t  tsBuf[RAINGAUGE_BUF_SIZE];
-    uint16_t  rainBuf[RAINGAUGE_BUF_SIZE];
-    uint8_t   head;
-    uint8_t   tail;
-
-    /* Sensor startup handling */
-    bool      startupPrev; // previous state of startup
-    float     rainStartup; // rain gauge before startup 
-
-    /* Rainfall of current day (can start anytime, but will reset on begin of new day) */
-    uint8_t   tsDayBegin; // day of week
-    float     rainDayBegin; // rain gauge @ begin of day
-
-    /* Rainfall of current week (can start anytime, but will reset on Monday */
-    uint8_t   tsWeekBegin; // day of week 
-    float     rainWeekBegin; // rain gauge @ begin of week
-    uint8_t   wdayPrev; // day of week at previous run - to detect new week
-
-    /* Rainfall of current calendar month (can start anytime, but will reset at begin of month */
-    uint8_t   tsMonthBegin; // month
-    float     rainMonthBegin; // rain gauge @ begin of month
-
-    float     rainPrev;  // rain gauge at previous run - to detect overflow
-    uint16_t  rainOvf; // number of rain gauge overflows
-} nvData_t;
-
-
 RTC_DATA_ATTR nvData_t nvData = {
    .tsBuf = {0},
    .rainBuf = {0}, 
@@ -162,16 +125,16 @@ RainGauge::printCircularBuffer(void)
         printf("[%3d ]\t", i);
     printf("\n");
     for (int i=0; i<RAINGAUGE_BUF_SIZE; i++)
-        printf("%6d\t", nvData.tsBuf[i] & 0xFFFF);
+        printf("%6d\t", nvData->tsBuf[i] & 0xFFFF);
     printf("\n");
     for (int i=0; i<RAINGAUGE_BUF_SIZE; i++)
-        printf("%6.1f\t", 0.1 * nvData.rainBuf[i]);
+        printf("%6.1f\t", 0.1 * nvData->rainBuf[i]);
     printf("\n");
     for (int i=0; i<RAINGAUGE_BUF_SIZE; i++)
-        printf("%3s\t", (i == nvData.tail) ? "T" : "");
+        printf("%3s\t", (i == nvData->tail) ? "T" : "");
     printf("\n");
     for (int i=0; i<RAINGAUGE_BUF_SIZE; i++)
-        printf("%3s\t", (i == nvData.head) ? "H" : "");
+        printf("%3s\t", (i == nvData->head) ? "H" : "");
     printf("\n\n");
 }
 #endif
@@ -181,32 +144,32 @@ void
 RainGauge::reset(uint8_t flags)
 {
     if (flags & RESET_RAIN_H) {
-        nvData.head           = 0;
-        nvData.tail           = 0;
+        nvData->head           = 0;
+        nvData->tail           = 0;
         for (int i=0; i < RAINGAUGE_BUF_SIZE; i++) {
-           nvData.tsBuf[i]   = 0;
-           nvData.rainBuf[i] = 0;
+           nvData->tsBuf[i]   = 0;
+           nvData->rainBuf[i] = 0;
         }
     }
     if (flags & RESET_RAIN_D) {
-        nvData.tsDayBegin     = 0xFF;
-        nvData.rainDayBegin   = 0;
+        nvData->tsDayBegin     = 0xFF;
+        nvData->rainDayBegin   = 0;
     }
     if (flags & RESET_RAIN_W) {
-        nvData.tsWeekBegin    = 0xFF;
-        nvData.rainWeekBegin  = 0;
-        nvData.wdayPrev       = 0xFF;
+        nvData->tsWeekBegin    = 0xFF;
+        nvData->rainWeekBegin  = 0;
+        nvData->wdayPrev       = 0xFF;
     }
     if (flags & RESET_RAIN_M) {
-        nvData.tsMonthBegin   = 0xFF;
-        nvData.rainMonthBegin = 0;
+        nvData->tsMonthBegin   = 0xFF;
+        nvData->rainMonthBegin = 0;
     }
 
     if (flags == (RESET_RAIN_H | RESET_RAIN_D | RESET_RAIN_W | RESET_RAIN_M)) {
-        nvData.startupPrev    = false;
-        nvData.rainStartup    = 0;
-        nvData.rainPrev       = 0;
-        nvData.rainOvf        = 0;
+        nvData->startupPrev    = false;
+        nvData->rainStartup    = 0;
+        nvData->rainPrev       = 0;
+        nvData->rainOvf        = 0;
         rainCurr              = 0;
     }
 }
@@ -219,12 +182,12 @@ RainGauge::init(tm t, float rain)
     
     // Init circular buffer with current timestamp (seconds since midnight) and rain gauge data
     for (int i=0; i<RAINGAUGE_BUF_SIZE; i++) {
-        nvData.tsBuf[i]   = (uint32_t)ts;
-        nvData.rainBuf[i] = (uint16_t)(rain * 10);
+        nvData->tsBuf[i]   = (uint32_t)ts;
+        nvData->rainBuf[i] = (uint16_t)(rain * 10);
     }
-    nvData.head = 0;
-    nvData.tail = 0;
-    nvData.tsDayBegin = t.tm_wday;
+    nvData->head = 0;
+    nvData->tail = 0;
+    nvData->tsDayBegin = t.tm_wday;
 }
 
 uint32_t
@@ -254,87 +217,87 @@ RainGauge::update(tm t, float rain, bool startup, float raingaugeMax)
     // Seconds since Midnight
     uint32_t ts = timeStamp(t);
 
-    if (rain < nvData.rainPrev) {
+    if (rain < nvData->rainPrev) {
        // Startup change 0->1 detected
-       if (!nvData.startupPrev && startup) {
+       if (!nvData->startupPrev && startup) {
            // Save last rain value before startup
-           nvData.rainStartup = nvData.rainPrev;
+           nvData->rainStartup = nvData->rainPrev;
        } else {
-           nvData.rainOvf++;
+           nvData->rainOvf++;
        }
     }
    
-    nvData.startupPrev = startup;
-    nvData.rainPrev = rain;
+    nvData->startupPrev = startup;
+    nvData->rainPrev = rain;
     
-    rainCurr = (nvData.rainOvf * raingaugeMax) + nvData.rainStartup + rain;
+    rainCurr = (nvData->rainOvf * raingaugeMax) + nvData->rainStartup + rain;
 
     // Check if no saved data is available yet
-    if (nvData.wdayPrev == 0xFF) {
+    if (nvData->wdayPrev == 0xFF) {
         // Save day of week to allow detection of new week
-        nvData.wdayPrev = t.tm_wday;
+        nvData->wdayPrev = t.tm_wday;
 
         // Init tail of circular buffer
-        nvData.tsBuf[nvData.tail]   = ts;
-        nvData.rainBuf[nvData.tail] = (uint16_t)(rainCurr * 10);
+        nvData->tsBuf[nvData->tail]   = ts;
+        nvData->rainBuf[nvData->tail] = (uint16_t)(rainCurr * 10);
     }
 
     // Remove stale entries
     uint32_t ts_cmp;
-    while (!(nvData.tail == nvData.head)) {
+    while (!(nvData->tail == nvData->head)) {
         ts_cmp = ts;
         // if current timestamp smaller than saved timestamp, add one day
-        if (ts_cmp < nvData.tsBuf[nvData.tail]) {
+        if (ts_cmp < nvData->tsBuf[nvData->tail]) {
             ts_cmp = ts_cmp + SECONDS_PER_DAY;
         }
-        if ((ts_cmp - nvData.tsBuf[nvData.tail]) <= SECONDS_PER_HOUR)
+        if ((ts_cmp - nvData->tsBuf[nvData->tail]) <= SECONDS_PER_HOUR)
             break;
-        nvData.tail = (nvData.tail == RAINGAUGE_BUF_SIZE-1) ? 0 : nvData.tail+1;
+        nvData->tail = (nvData->tail == RAINGAUGE_BUF_SIZE-1) ? 0 : nvData->tail+1;
     }
 
     //printCircularBuffer();
     // Add new value
-    head_tmp = (nvData.head == RAINGAUGE_BUF_SIZE-1) ? 0 : nvData.head+1;
+    head_tmp = (nvData->head == RAINGAUGE_BUF_SIZE-1) ? 0 : nvData->head+1;
     // Prevent head from reaching tail if update rate is too fast
-    nvData.head = (head_tmp == nvData.tail) ? nvData.head : head_tmp;
-    nvData.tsBuf[nvData.head]   = ts;
-    nvData.rainBuf[nvData.head] = (uint16_t)(rainCurr * 10);
+    nvData->head = (head_tmp == nvData->tail) ? nvData->head : head_tmp;
+    nvData->tsBuf[nvData->head]   = ts;
+    nvData->rainBuf[nvData->head] = (uint16_t)(rainCurr * 10);
             
     // Check if day of the week has changed
     // or no saved data is available yet
-    if ((t.tm_wday != nvData.tsDayBegin) || 
-        (nvData.tsDayBegin == 0xFF)) {
+    if ((t.tm_wday != nvData->tsDayBegin) || 
+        (nvData->tsDayBegin == 0xFF)) {
         // save timestamp
-        nvData.tsDayBegin = t.tm_wday;
+        nvData->tsDayBegin = t.tm_wday;
         
         // save rain gauge value
-        nvData.rainDayBegin = rainCurr;
+        nvData->rainDayBegin = rainCurr;
     }
     
     // Check if the week has changed
     // (transition from 0 - Sunday to 1 - Monday
     // or no saved data is available yet
-    if (((t.tm_wday == 1) && (nvData.wdayPrev == 0)) ||
-        (nvData.tsWeekBegin == 0xFF)) {
+    if (((t.tm_wday == 1) && (nvData->wdayPrev == 0)) ||
+        (nvData->tsWeekBegin == 0xFF)) {
         // save timestamp
-        nvData.tsWeekBegin = t.tm_wday;
+        nvData->tsWeekBegin = t.tm_wday;
         
         // save rain gauge value
-        nvData.rainWeekBegin = rainCurr;
+        nvData->rainWeekBegin = rainCurr;
     }
     
     // Update day of week
-    nvData.wdayPrev = t.tm_wday;
+    nvData->wdayPrev = t.tm_wday;
         
     // Check if month has changed
     // or no saved data is available yet
-    if ((t.tm_mon != nvData.tsMonthBegin) ||
-        (nvData.tsMonthBegin == 0xFF)) {
+    if ((t.tm_mon != nvData->tsMonthBegin) ||
+        (nvData->tsMonthBegin == 0xFF)) {
         // save timestamp
-        nvData.tsMonthBegin = t.tm_mon;
+        nvData->tsMonthBegin = t.tm_mon;
         
         // save rain gauge value
-        nvData.rainMonthBegin = rainCurr;
+        nvData->rainMonthBegin = rainCurr;
     }
 
 }
@@ -342,23 +305,23 @@ RainGauge::update(tm t, float rain, bool startup, float raingaugeMax)
 float
 RainGauge::pastHour(void)
 {
-    return (float)(0.1 * (nvData.rainBuf[nvData.head] - nvData.rainBuf[nvData.tail]));
+    return (float)(0.1 * (nvData->rainBuf[nvData->head] - nvData->rainBuf[nvData->tail]));
 }
 
 float
 RainGauge::currentDay(void)
 {
-    return rainCurr - nvData.rainDayBegin;
+    return rainCurr - nvData->rainDayBegin;
 }
 
 float
 RainGauge::currentWeek(void)
 {
-    return rainCurr - nvData.rainWeekBegin;
+    return rainCurr - nvData->rainWeekBegin;
 }
 
 float
 RainGauge::currentMonth(void)
 {
-    return rainCurr - nvData.rainMonthBegin;
+    return rainCurr - nvData->rainMonthBegin;
 }
