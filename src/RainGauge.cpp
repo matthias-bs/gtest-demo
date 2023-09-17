@@ -183,7 +183,10 @@ RainGauge::reset(uint8_t flags)
     if (flags & RESET_RAIN_H) {
         nvData.head           = 0;
         nvData.tail           = 0;
-
+        for (int i=0; i < RAINGAUGE_BUF_SIZE); i++) {
+           nvData.tsBuf[i]   = 0;
+           nvData.rainBuf[i] = 0;
+        }
     }
     if (flags & RESET_RAIN_D) {
         nvData.tsDayBegin     = 0xFF;
@@ -192,7 +195,7 @@ RainGauge::reset(uint8_t flags)
     if (flags & RESET_RAIN_W) {
         nvData.tsWeekBegin    = 0xFF;
         nvData.rainWeekBegin  = 0;
-
+        nvData.wdayPrev       = 0xFF;
     }
     if (flags & RESET_RAIN_M) {
         nvData.tsMonthBegin   = 0xFF;
