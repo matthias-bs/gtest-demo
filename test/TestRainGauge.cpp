@@ -1054,5 +1054,5 @@ TEST(TestRainGauge, TestRainGaugeBasic) {
       RainHourOvMidnight();
       RainDailyOv();
       RainWeeklyOv();
-      //RainMonthlyOv();
+      RainMonthlyOv();
 }
