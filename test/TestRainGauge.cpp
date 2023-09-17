@@ -193,8 +193,8 @@ TEST(TestRainGauge, RainHourShort) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&data01);
-  rainGauge.reset();
+  RainGauge rainGauge01(&data01);
+  rainGauge01.reset();
   
   tm        tm;
   time_t    ts;
@@ -203,77 +203,77 @@ TEST(TestRainGauge, RainHourShort) {
   printf("< RainHourShort >\n");
   
   setTime("2022-09-11 15:00", tm, ts);
-  rainGauge.update(tm, rainSensor=10.0);
+  rainGauge01.update(tm, rainSensor=10.0);
   DEBUG_CB();
   ASSERT_NEAR(0, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:05", tm, ts);
-  rainGauge.update(tm, rainSensor=10.1);
+  rainGauge01.update(tm, rainSensor=10.1);
   DEBUG_CB();
   ASSERT_NEAR(0.1, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 15:10", tm, ts);
-  rainGauge.update(tm, rainSensor=10.3);
+  rainGauge01.update(tm, rainSensor=10.3);
   DEBUG_CB();
   ASSERT_NEAR(0.3, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:15", tm, ts);
-  rainGauge.update(tm, rainSensor=10.6);
+  rainGauge01.update(tm, rainSensor=10.6);
   DEBUG_CB();
   ASSERT_NEAR(0.6, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:20", tm, ts);
-  rainGauge.update(tm, rainSensor=11.0);
+  rainGauge01.update(tm, rainSensor=11.0);
   DEBUG_CB();
   ASSERT_NEAR(1.0, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:25", tm, ts);
-  rainGauge.update(tm, rainSensor=11.5);
+  rainGauge01.update(tm, rainSensor=11.5);
   DEBUG_CB();
   ASSERT_NEAR(1.5, rainGauge.pastHour(), TOLERANCE);  
 
   setTime("2022-09-11 15:30", tm, ts);
-  rainGauge.update(tm, rainSensor=12.1);
+  rainGauge01.update(tm, rainSensor=12.1);
   DEBUG_CB();
   ASSERT_NEAR(2.1, rainGauge.pastHour(), TOLERANCE);  
 
   setTime("2022-09-11 15:35", tm, ts);
-  rainGauge.update(tm, rainSensor=12.8);
+  rainGauge01.update(tm, rainSensor=12.8);
   DEBUG_CB();
   ASSERT_NEAR(2.8, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 15:40", tm, ts);
-  rainGauge.update(tm, rainSensor=13.6);
+  rainGauge01.update(tm, rainSensor=13.6);
   DEBUG_CB();
   ASSERT_NEAR(3.6, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:45", tm, ts);
-  rainGauge.update(tm, rainSensor=14.5);
+  rainGauge01.update(tm, rainSensor=14.5);
   DEBUG_CB();
   ASSERT_NEAR(4.5, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 15:50", tm, ts);
-  rainGauge.update(tm, rainSensor=15.5);
+  rainGauge01.update(tm, rainSensor=15.5);
   DEBUG_CB();
   ASSERT_NEAR(5.5, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 15:55", tm, ts);
-  rainGauge.update(tm, rainSensor=16.6);
+  rainGauge01.update(tm, rainSensor=16.6);
   DEBUG_CB();
   ASSERT_NEAR(6.6, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 16:00", tm, ts);
-  rainGauge.update(tm, rainSensor=17.8);
+  rainGauge01.update(tm, rainSensor=17.8);
   DEBUG_CB();
   ASSERT_NEAR(7.8, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 16:05", tm, ts);
-  rainGauge.update(tm, rainSensor=18.8);
+  rainGauge01.update(tm, rainSensor=18.8);
   DEBUG_CB();
   ASSERT_NEAR(18.8 - 10.1, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 16:10", tm, ts);
-  rainGauge.update(tm, rainSensor=19.9);
+  rainGauge01.update(tm, rainSensor=19.9);
   DEBUG_CB();
   ASSERT_NEAR(19.9 - 10.3, rainGauge.pastHour(), TOLERANCE);
 }
@@ -303,8 +303,8 @@ TEST(TestRainGauge, RainHourLong) {
    .rainOvf = 0
   };
 
-  RainGauge rainGauge(&data02);
-  rainGauge.reset();
+  RainGauge rainGauge02(&data02);
+  rainGauge02.reset();
 
   tm        tm;
   time_t    ts;
@@ -313,62 +313,62 @@ TEST(TestRainGauge, RainHourLong) {
   printf("< RainHourLong >\n");
   
   setTime("2022-09-11 15:00", tm, ts);
-  rainGauge.update(tm, rainSensor=10.0);
+  rainGauge02.update(tm, rainSensor=10.0);
   DEBUG_CB();
   ASSERT_NEAR(0, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:10", tm, ts);
-  rainGauge.update(tm, rainSensor=10.1);
+  rainGauge02.update(tm, rainSensor=10.1);
   DEBUG_CB();
   ASSERT_NEAR(0.1, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 15:20", tm, ts);
-  rainGauge.update(tm, rainSensor=10.3);
+  rainGauge02.update(tm, rainSensor=10.3);
   DEBUG_CB();
   ASSERT_NEAR(0.3, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:30", tm, ts);
-  rainGauge.update(tm, rainSensor=10.6);
+  rainGauge02.update(tm, rainSensor=10.6);
   DEBUG_CB();
   ASSERT_NEAR(0.6, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:40", tm, ts);
-  rainGauge.update(tm, rainSensor=11.0);
+  rainGauge02.update(tm, rainSensor=11.0);
   DEBUG_CB();
   ASSERT_NEAR(1.0, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 15:50", tm, ts);
-  rainGauge.update(tm, rainSensor=11.5);
+  rainGauge02.update(tm, rainSensor=11.5);
   DEBUG_CB();
   ASSERT_NEAR(1.5, rainGauge.pastHour(), TOLERANCE);  
 
   setTime("2022-09-11 16:00", tm, ts);
-  rainGauge.update(tm, rainSensor=12.1);
+  rainGauge02.update(tm, rainSensor=12.1);
   DEBUG_CB();
   ASSERT_NEAR(2.1, rainGauge.pastHour(), TOLERANCE);  
 
   setTime("2022-09-11 16:10", tm, ts);
-  rainGauge.update(tm, rainSensor=12.8);
+  rainGauge02.update(tm, rainSensor=12.8);
   DEBUG_CB();
   ASSERT_NEAR(12.8 - 10.1, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 16:20", tm, ts);
-  rainGauge.update(tm, rainSensor=13.6);
+  rainGauge02.update(tm, rainSensor=13.6);
   DEBUG_CB();
   ASSERT_NEAR(13.6 - 10.3, rainGauge.pastHour(), TOLERANCE);
 
   setTime("2022-09-11 16:30", tm, ts);
-  rainGauge.update(tm, rainSensor=14.5);
+  rainGauge02.update(tm, rainSensor=14.5);
   DEBUG_CB();
   ASSERT_NEAR(14.5 - 10.6, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 16:40", tm, ts);
-  rainGauge.update(tm, rainSensor=15.5);
+  rainGauge02.update(tm, rainSensor=15.5);
   DEBUG_CB();
   ASSERT_NEAR(15.5 - 11.0, rainGauge.pastHour(), TOLERANCE);
   
   setTime("2022-09-11 16:50", tm, ts);
-  rainGauge.update(tm, rainSensor=16.6);
+  rainGauge02.update(tm, rainSensor=16.6);
   DEBUG_CB();
   ASSERT_NEAR(16.6 - 11.5, rainGauge.pastHour(), TOLERANCE);
 }
