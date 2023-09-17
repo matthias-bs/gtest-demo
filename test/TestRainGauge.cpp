@@ -1042,7 +1042,7 @@ void TestRainStartup(void) {
 
 
 TEST(TestRainGauge, TestRainGaugeBasic) {
-      //TestRainStartup();
+      TestRainStartup();
       RainHour();
       RainHourShort();
       RainHourLong();
